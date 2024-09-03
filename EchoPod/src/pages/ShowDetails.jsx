@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate  } from 'react-router-dom';
 import usePodcastStore from '../store/podcastStore';
 import SeasonCard from '../components/SeasonCard';
 import Loader from '../components/Loader';
 
 const ShowDetails = () => {
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { fetchShowDetails, showDetails, isLoading } = usePodcastStore();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const ShowDetails = () => {
   }, [fetchShowDetails, id]);
 
   const handleSeasonClick = (seasonId) => {
-    history.push(`/shows/${id}/seasons/${seasonId}`);
+    navigate(`/shows/${id}/seasons/${seasonId}`);
   };
 
   if (isLoading) return <Loader />;
