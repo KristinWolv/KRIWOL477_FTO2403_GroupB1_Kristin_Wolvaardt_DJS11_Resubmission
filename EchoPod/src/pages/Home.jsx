@@ -17,7 +17,7 @@ const Home = () => {
       <h2>Podcast Previews</h2>
       <div className="show-list">
         {shows.map(show => (
-          <ShowCard key={show.id} show={show} />
+          <ShowCard key={Number(show.id)} show={{ ...show, id: Number(show.id) }}  />
         ))}
       </div>
     </div>
