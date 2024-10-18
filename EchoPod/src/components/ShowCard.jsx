@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+;
+
 const ShowCard = ({ show }) => {
   return (
     <div className="show-card">
@@ -21,12 +23,12 @@ ShowCard.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    lastUpdated: PropTypes.string.isRequired,
-    genres: PropTypes.string.isRequired,
     previewImage: PropTypes.string.isRequired,
-    seasons: PropTypes.string.isRequired,
+    lastUpdated: PropTypes.string.isRequired,
+    genres: PropTypes.arrayOf(PropTypes.string).isRequired,
+    seasons: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
 };
+
 
 export default ShowCard;
