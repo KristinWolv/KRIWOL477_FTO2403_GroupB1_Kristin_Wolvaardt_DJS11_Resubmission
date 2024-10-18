@@ -4,7 +4,7 @@ import 'react-h5-audio-player/lib/styles.css';
 import usePodcastStore from '../store/podcastStore'
 
 const AudioPlayer = () => {
-  const { currentAudio, setCurrentAudio } = usePodcastStore();  // Make sure useStore has currentAudio and setCurrentAudio
+  const { currentAudio, setCurrentAudio } = usePodcastStore();  
 
   return (
     <ReactAudioPlayer
