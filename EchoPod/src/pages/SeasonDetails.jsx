@@ -6,7 +6,6 @@ import Loader from '../components/Loader';
 
 const SeasonDetails = () => {
   const { id, seasonId } = useParams();
-  
   const { fetchSeasonDetails, seasonDetails, isLoading } = usePodcastStore();
 
   useEffect(() => {
@@ -14,6 +13,10 @@ const SeasonDetails = () => {
   }, [fetchSeasonDetails, id, seasonId]);
 
   if (isLoading) return <Loader />;
+
+  if (!seasonDetails.episodes || seasonDetails.episodes.length === 0) {
+    return <div>No episodes available.</div>;
+  }
 
   return (
     <div className="season-details-page">
