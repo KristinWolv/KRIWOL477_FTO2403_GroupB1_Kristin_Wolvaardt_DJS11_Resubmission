@@ -4,6 +4,18 @@ import axios from 'axios';
 
 const API_BASE_URL = 'https://podcast-api.netlify.app';
 
+const genreMap = {
+  1: 'Personal Growth',
+  2: 'Investigative Journalism',
+  3: 'History',
+  4: 'Comedy',
+  5: 'Entertainment',
+  6: 'Business',
+  7: 'Fiction',
+  8: 'News',
+  9: 'Kids and Family',
+};
+
 const usePodcastStore = create(persist(
   (set, get) => ({
     shows: [],
@@ -13,11 +25,13 @@ const usePodcastStore = create(persist(
     favourites: [],
     currentAudio: null,
     isLoading: false,
+    currentGenre: null,
+    currentShow: null,
 
     fetchShows: async () => {
       set({ isLoading: true });
       try {
-        const response = await axios.get(`${API_BASE_URL}`);
+        const response = await axios.get(API_BASE_URL);
         set({ shows: response.data, isLoading: false });
       } catch (error) {
         console.error("Error fetching shows:", error);
@@ -28,7 +42,7 @@ const usePodcastStore = create(persist(
     fetchShowDetails: async (id) => {
       set({ isLoading: true });
       try {
-        const response = await axios.get(`${API_BASE_URL}/shows/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/id/${id}`);
         set({ showDetails: response.data, isLoading: false });
       } catch (error) {
         console.error("Error fetching show details:", error);
@@ -39,7 +53,7 @@ const usePodcastStore = create(persist(
     fetchSeasonDetails: async (showId, seasonId) => {
       set({ isLoading: true });
       try {
-        const response = await axios.get(`${API_BASE_URL}/shows/${showId}/seasons/${seasonId}`);
+        const response = await axios.get(`${API_BASE_URL}/id/${showId}/seasons/${seasonId}`);
         set({ seasonDetails: response.data, isLoading: false });
       } catch (error) {
         console.error("Error fetching season details:", error);
@@ -61,7 +75,7 @@ const usePodcastStore = create(persist(
     fetchShowsByGenre: async (genreId) => {
       set({ isLoading: true });
       try {
-        const response = await axios.get(`${API_BASE_URL}/genres/${genreId}`);
+        const response = await axios.get(`${API_BASE_URL}/genre/${genreId}`);
         set({ shows: response.data, isLoading: false });
       } catch (error) {
         console.error("Error fetching shows by genre:", error);
@@ -82,6 +96,8 @@ const usePodcastStore = create(persist(
     setCurrentAudio: (audioUrl) => {
       set({ currentAudio: audioUrl });
     },
+
+    getGenreTitleById: (id) => genreMap[id] || 'Unknown Genre',
   }),
   {
     name: "podcast-storage",
@@ -89,3 +105,6 @@ const usePodcastStore = create(persist(
 ));
 
 export default usePodcastStore;
+
+
+
