@@ -12,6 +12,7 @@ import Genres from './pages/Genres';
 
 const App = () => {
   const [podcasts, setPodcasts] = useState([]);
+  
 
   useEffect(() => {
     fetch('https://podcast-api.netlify.app')
@@ -33,9 +34,9 @@ const App = () => {
             <Route path="/genres" element={<Genres />} />
           </Routes>
         </main>
-        <Footer />
-        <AudioPlayer />
-      </div>
+        <Footer links={[{ href: '/', text: 'Home' }, { href: '/favourites', text: 'Favourites' }, { href: '/genres', text: 'Genres' }]} />
+        <AudioPlayer/> 
+        </div>
     </Router>
   );
 };
