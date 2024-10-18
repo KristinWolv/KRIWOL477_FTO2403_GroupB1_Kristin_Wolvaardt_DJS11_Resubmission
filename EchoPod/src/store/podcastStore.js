@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import axios from 'axios';
 
@@ -45,7 +45,7 @@ const usePodcastStore = create(persist(
         const response = await axios.get(`${API_BASE_URL}/id/${id}`);
         set({ showDetails: response.data, isLoading: false });
       } catch (error) {
-        console.error("Error fetching show details:", error);
+        console.error(`Error fetching show details for ID ${id}:`, error);
         set({ isLoading: false });
       }
     },
@@ -56,7 +56,7 @@ const usePodcastStore = create(persist(
         const response = await axios.get(`${API_BASE_URL}/id/${showId}/seasons/${seasonId}`);
         set({ seasonDetails: response.data, isLoading: false });
       } catch (error) {
-        console.error("Error fetching season details:", error);
+        console.error(`Error fetching season details for show ID ${showId} and season ID ${seasonId}:`, error);
         set({ isLoading: false });
       }
     },
@@ -78,7 +78,18 @@ const usePodcastStore = create(persist(
         const response = await axios.get(`${API_BASE_URL}/genre/${genreId}`);
         set({ shows: response.data, isLoading: false });
       } catch (error) {
-        console.error("Error fetching shows by genre:", error);
+        console.error(`Error fetching shows by genre ID ${genreId}:`, error);
+        set({ isLoading: false });
+      }
+    },
+
+    fetchGenreById: async (id) => {
+      set({ isLoading: true });
+      try {
+        const response = await axios.get(`${API_BASE_URL}/genre/${id}`);
+        set({ currentGenre: response.data, isLoading: false });
+      } catch (error) {
+        console.error(`Error fetching genre details for ID ${id}:`, error);
         set({ isLoading: false });
       }
     },
@@ -105,6 +116,7 @@ const usePodcastStore = create(persist(
 ));
 
 export default usePodcastStore;
+
 
 
 
