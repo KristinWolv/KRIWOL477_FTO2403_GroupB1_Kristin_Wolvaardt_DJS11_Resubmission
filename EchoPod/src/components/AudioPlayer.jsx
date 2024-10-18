@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import ReactAudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-import usePodcastStore from '../store/podcastStore';
+import usePodcastStore from '../store/podcastStore'
 
 const AudioPlayer = () => {
-  const { currentAudio, setCurrentAudio } = usePodcastStore();
+  const { currentAudio, setCurrentAudio } = usePodcastStore();  // Make sure useStore has currentAudio and setCurrentAudio
 
   return (
     <ReactAudioPlayer
@@ -18,8 +18,8 @@ const AudioPlayer = () => {
 };
 
 AudioPlayer.propTypes = {
-  audioUrl: PropTypes.string.isRequired,
-  isPlaying: PropTypes.bool.isRequired,
+  audioUrl: PropTypes.string,
+  isPlaying: PropTypes.bool,
 };
 
 export default AudioPlayer;
