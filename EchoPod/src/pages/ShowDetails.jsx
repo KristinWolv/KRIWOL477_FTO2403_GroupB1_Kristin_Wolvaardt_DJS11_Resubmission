@@ -4,6 +4,7 @@ import usePodcastStore from '../store/podcastStore';
 import Loader from '../components/Loader';
 import SeasonCard from '../components/SeasonCard';
 import AudioPlayer from '../components/AudioPlayer';
+
 const ShowDetails = () => {
   const { id } = useParams();
   const { fetchShowDetails, showDetails, isLoading, setCurrentAudio, addToFavourites, removeFromFavourites, favourites } = usePodcastStore();
