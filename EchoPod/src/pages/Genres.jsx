@@ -4,7 +4,7 @@ import ShowCard from '../components/ShowCard';
 import Loader from '../components/Loader';
 
 const Genres = () => {
-  const { genres, shows, fetchGenres, fetchShowsByGenre, isLoading } = usePodcastStore();
+  const { genres, shows, fetchGenres, fetchShowsByGenre, isLoading, getGenreTitleById } = usePodcastStore();
 
   useEffect(() => {
     fetchGenres();
@@ -20,19 +20,28 @@ const Genres = () => {
     <div className="genres-page">
       <h2>Genres</h2>
       <div className="genres-list">
-        {genres.map(genre => (
-          <button key={genre.id} onClick={() => handleGenreClick(genre)}>
-            {genre.name}
-          </button>
-        ))}
+        {genres.length === 0 ? (
+          <div>No genres available.</div>
+        ) : (
+          genres.map(genre => (
+            <button key={genre.id} onClick={() => handleGenreClick(genre)}>
+              {getGenreTitleById(genre.id)}
+            </button>
+          ))
+        )}
       </div>
       <div className="show-list">
-        {shows.map(show => (
-          <ShowCard key={show.id} show={show} />
-        ))}
+        {shows.length === 0 ? (
+          <div>No shows available for this genre.</div>
+        ) : (
+          shows.map(show => (
+            <ShowCard key={show.id} show={show} />
+          ))
+        )}
       </div>
     </div>
   );
 };
 
 export default Genres;
+
