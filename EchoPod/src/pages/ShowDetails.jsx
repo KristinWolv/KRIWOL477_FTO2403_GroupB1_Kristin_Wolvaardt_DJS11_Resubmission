@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react'; // Import useState
 import { useParams } from 'react-router-dom';
 import usePodcastStore from '../store/podcastStore';
 import Loader from '../components/Loader';
@@ -8,14 +8,29 @@ import AudioPlayer from '../components/AudioPlayer';
 const ShowDetails = () => {
   const { id } = useParams();
   const { fetchShowDetails, showDetails, isLoading, setCurrentAudio, addToFavourites, removeFromFavourites, favourites } = usePodcastStore();
+  
+  // Step 1: Add an error state
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchShowDetails(id);
+    const getShowDetails = async () => {
+      try {
+        await fetchShowDetails(id);
+        setError(null); // Reset error state on successful fetch
+      } catch (error) {
+        console.error("Failed to fetch show details:", error);
+        setError("Failed to load show details. Please try again later."); // Set error message
+      }
+    };
+
+    getShowDetails();
   }, [fetchShowDetails, id]);
 
   const isFavorited = favourites.some(fav => fav.id === showDetails.id);
 
+  // Step 2: Handle loading and error states
   if (isLoading) return <Loader />;
+  if (error) return <div className="error-message">{error}</div>; // Display error message
 
   return (
     <div className="show-details-page">

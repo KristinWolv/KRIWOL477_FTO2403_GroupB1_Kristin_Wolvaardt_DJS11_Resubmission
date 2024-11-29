@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-;
-
 const ShowCard = ({ show }) => {
   return (
     <div className="show-card">
@@ -29,6 +27,5 @@ ShowCard.propTypes = {
     seasons: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
 };
-
 
 export default ShowCard;
