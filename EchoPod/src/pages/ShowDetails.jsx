@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'; // Import useState
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import usePodcastStore from '../store/podcastStore';
 import Loader from '../components/Loader';
@@ -8,29 +8,38 @@ import AudioPlayer from '../components/AudioPlayer';
 const ShowDetails = () => {
   const { id } = useParams();
   const { fetchShowDetails, showDetails, isLoading, setCurrentAudio, addToFavourites, removeFromFavourites, favourites } = usePodcastStore();
-  
-  // Step 1: Add an error state
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getShowDetails = async () => {
       try {
         await fetchShowDetails(id);
-        setError(null); // Reset error state on successful fetch
+        setError(null);
       } catch (error) {
         console.error("Failed to fetch show details:", error);
-        setError("Failed to load show details. Please try again later."); // Set error message
+        setError("Failed to load show details. Please try again later.");
       }
     };
 
     getShowDetails();
   }, [fetchShowDetails, id]);
 
-  const isFavorited = favourites.some(fav => fav.id === showDetails.id);
+  // Debugging: Inspect the showDetails object
+  console.log("Show Details:", showDetails);
 
-  // Step 2: Handle loading and error states
+  // Show loading spinner while data is being fetched
   if (isLoading) return <Loader />;
-  if (error) return <div className="error-message">{error}</div>; // Display error message
+
+  // Show error message if there's an error
+  if (error) return <div className="error-message">{error}</div>;
+
+  // Show fallback message if showDetails is empty
+  if (!showDetails || Object.keys(showDetails).length === 0) {
+    return <div className="error-message">No show details available.</div>;
+  }
+
+  // Check if the show is favorited
+  const isFavorited = favourites.some(fav => fav.id === showDetails.id);
 
   return (
     <div className="show-details-page">
@@ -41,9 +50,14 @@ const ShowDetails = () => {
       </button>
       <AudioPlayer />
       <div className="seasons-list">
-        {showDetails.seasons.map(season => (
-          <SeasonCard key={season.id} season={season} />
-        ))}
+        {/* Add a fallback if seasons array is missing or empty */}
+        {showDetails.seasons?.length > 0 ? (
+          showDetails.seasons.map(season => (
+            <SeasonCard key={season.id} season={season} />
+          ))
+        ) : (
+          <p>No seasons available.</p>
+        )}
       </div>
     </div>
   );
