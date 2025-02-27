@@ -5,6 +5,7 @@ const API_BASE_URL = 'https://podcast-api.netlify.app';
 export const fetchShows = async () => {
   try {
     const response = await axios.get(API_BASE_URL);
+    console.log("API Response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching shows:", error);
