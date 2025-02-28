@@ -35,7 +35,10 @@ const usePodcastStore = create(persist(
       set({ isLoading: true, error: null });
       try {
         const response = await axios.get(API_BASE_URL);
-        set({ shows: response.data, isLoading: false });
+        // Sort shows alphabetically by title
+       const sortedShows = response.data.sort((a, b) => a.title.localeCompare(b.title));
+
+       set({ shows: sortedShows, isLoading: false }); // Update the state with sorted shows
       } catch (error) {
         console.error("Error fetching shows:", error);
         set({ isLoading: false, error: "Failed to load shows. Please try again." });

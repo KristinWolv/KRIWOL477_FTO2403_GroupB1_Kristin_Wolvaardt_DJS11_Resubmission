@@ -6,6 +6,10 @@ import Loader from '../components/Loader';
 const Home = () => {
   const { fetchShows, shows, isLoading } = usePodcastStore();
 
+   // Sort shows alphabetically by title
+   const sortedShows = shows.sort((a, b) => a.title.localeCompare(b.title));
+
+
   useEffect(() => {
     fetchShows();
   }, [fetchShows]);
@@ -13,11 +17,11 @@ const Home = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="home-page">
-      <h2>Podcast Previews</h2>
+    <div className="main-content">
+      <h1>Podcast Shows</h1>
       <div className="show-list">
-        {shows.map(show => (
-          <ShowCard key={Number(show.id)} show={{ ...show, id: Number(show.id) }}  />
+        {sortedShows.map((show) => (
+          <ShowCard key={show.id} show={show} />
         ))}
       </div>
     </div>
