@@ -30,7 +30,7 @@ const usePodcastStore = create(persist(
     error: null, // Added error state
     currentGenre: null,
     currentShow: null,
-
+    
     fetchShows: async () => {
       set({ isLoading: true, error: null });
       try {
