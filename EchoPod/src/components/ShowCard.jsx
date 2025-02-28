@@ -4,6 +4,7 @@ import usePodcastStore from '../store/podcastStore';
 
 
 const ShowCard = ({ show }) => {
+  console.log("Show data in ShowCard:", show);
   // Used the Zustand hook to access getGenreTitleById
   const { getGenreTitleById } = usePodcastStore();
 
@@ -11,7 +12,11 @@ const ShowCard = ({ show }) => {
   const fallbackImage = 'https://via.placeholder.com/150';
 
   const formattedLastUpdated = show.lastUpdated
-    ? new Date(show.lastUpdated).toLocaleDateString()
+    ? new Date(show.lastUpdated).toLocaleDateString('en-ZA', { //Use ZA local time
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
     : 'Date not available';
 
   return (
@@ -28,7 +33,7 @@ const ShowCard = ({ show }) => {
           {/* Map genre IDs to their titles using getGenreTitleById */}
           {show.genres?.map((genreId) => getGenreTitleById(genreId)).join(", ") || "No genres available"}
         </p>
-        <p>Seasons: {show.seasons?.length || 0}</p>
+        <p>Seasons: {show.seasons ? show.seasons.length : "Loading..."}</p>
         <p>Last Updated: {formattedLastUpdated}</p>
         <Link to={`/shows/${show.id}`} className="details-link">
           View Details

@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import usePodcastStore from '../store/podcastStore';
 
+
 const EpisodeCard = ({ episode }) => {
   const { addToFavourites, removeFromFavourites, setCurrentAudio } = usePodcastStore();
 
   const handlePlay = () => {
+    console.log("Playing episode:", episode.audioUrl);
     setCurrentAudio(episode.audioUrl);
   };
 
@@ -19,10 +21,14 @@ const EpisodeCard = ({ episode }) => {
   return (
     <div className="episode-card">
       <h5>{episode.title}</h5>
-      <button onClick={handlePlay}>Play</button>
-      <button onClick={handleFavourite}>
-        {episode.isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
-      </button>
+      <div className="button-container">
+        <button className="play-button" onClick={handlePlay}>
+          Play
+        </button>
+        <button className="favorite-button" onClick={handleFavourite}>
+          {episode.isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
+        </button>
+      </div>
       <p>{new Date(episode.dateAdded).toLocaleDateString()}</p>
     </div>
   );
