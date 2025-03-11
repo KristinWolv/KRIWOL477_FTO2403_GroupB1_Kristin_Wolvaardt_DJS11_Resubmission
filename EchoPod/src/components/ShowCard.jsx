@@ -8,33 +8,22 @@ const ShowCard = ({ show }) => {
   // Used the Zustand hook to access getGenreTitleById
   const { getGenreTitleById } = usePodcastStore();
 
-  // Fallback image in case previewImage is missing
-  const fallbackImage = 'https://via.placeholder.com/150';
-
-  const formattedLastUpdated = show.lastUpdated
-    ? new Date(show.lastUpdated).toLocaleDateString('en-ZA', { //Use ZA local time
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : 'Date not available';
-
   return (
     <div className="show-card">
       <img
-        src={show.previewImage || fallbackImage}
+        src={show.image}
         alt={show.title}
         className="show-image"
       />
       <div className="show-details">
         <h3>{show.title}</h3>
         <p>
-          Genres:{" "}S
+          Genres:{" "}
           {/* Map genre IDs to their titles using getGenreTitleById */}
           {show.genres?.map((genreId) => getGenreTitleById(genreId)).join(", ") || "No genres available"}
         </p>
-        <p>Seasons: {show.seasons ? show.seasons.length : "Loading..."}</p>
-        <p>Last Updated: {formattedLastUpdated}</p>
+        <p>Seasons: {show.seasons ? show.seasons : "No seasons available"}</p>
+        <p>Last Updated: {new Date(show.updated).toDateString()}</p>
         <Link to={`/shows/${show.id}`} className="details-link">
           View Details
         </Link>
@@ -49,8 +38,8 @@ ShowCard.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
-    previewImage: PropTypes.string,
-    lastUpdated: PropTypes.string.isRequired,
+    image: PropTypes.string,
+    updated: PropTypes.string.isRequired,
     genres: PropTypes.arrayOf(PropTypes.string).isRequired,
     seasons: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
