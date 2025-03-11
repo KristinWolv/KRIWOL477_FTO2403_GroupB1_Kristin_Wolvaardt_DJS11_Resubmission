@@ -4,7 +4,7 @@ import 'react-h5-audio-player/lib/styles.css';
 import usePodcastStore from '../store/podcastStore'
 
 // Placeholder audio URL
-const PLACEHOLDER_AUDIO_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; //generic free mp3 found online
+const PLACEHOLDER_AUDIO_URL = ''; 
 
 const AudioPlayer = () => {
   const { currentAudio, setCurrentAudio } = usePodcastStore(); 
