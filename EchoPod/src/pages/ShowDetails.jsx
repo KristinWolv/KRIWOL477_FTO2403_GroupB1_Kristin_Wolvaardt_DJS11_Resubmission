@@ -7,7 +7,7 @@ import AudioPlayer from '../components/AudioPlayer';
 
 const ShowDetails = () => {
   const { id } = useParams();
-  const { fetchShowDetails, showDetails, isLoading, setCurrentAudio, addToFavourites, removeFromFavourites, favourites } = usePodcastStore();
+  const { fetchShowDetails, showDetails, isLoading, setCurrentAudio, addToFavourites, removeFromFavourites, } = usePodcastStore();
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ShowDetails = () => {
   }
 
   // Check if the show is favorited
-  const isFavorited = favourites.some(fav => fav.id === showDetails.id);
+  const isFavorited = showDetails.isFavourite || false;
 
   return (
     <div className="show-details-page">
