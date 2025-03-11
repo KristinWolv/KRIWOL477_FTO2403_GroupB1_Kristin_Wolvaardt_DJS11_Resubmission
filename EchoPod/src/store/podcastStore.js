@@ -49,6 +49,10 @@ const usePodcastStore = create(persist(
       set({ isLoading: true, error: null });
       try {
         const response = await axios.get(`${API_BASE_URL}/id/${id}`);
+        const showDetails = {
+          ...response.data,
+          isFavourite: false, // Initialize isFavourite
+        };
         set({ showDetails: response.data, isLoading: false });
       } catch (error) {
         console.error(`Error fetching show details for ID ${id}:`, error);
@@ -89,14 +93,37 @@ const usePodcastStore = create(persist(
       }
     },
 
-    addToFavourites: (episode) => {
-      const favourites = get().favourites;
-      set({ favourites: [...favourites, episode] });
+    addToFavourites: (show) => {
+      const { showDetails, favourites } = get();
+      
+      // Update the showDetails object
+      const updatedShowDetails = {
+        ...showDetails,
+        isFavourite: true, // Mark the show as favourited
+      };
+    
+      // Add the show to favourites
+      set({ 
+        showDetails: updatedShowDetails, 
+        favourites: [...favourites, { ...show, isFavourite: true }] 
+      });
     },
-
-    removeFromFavourites: (episodeId) => {
-      const favourites = get().favourites.filter(e => e.id !== episodeId);
-      set({ favourites });
+    
+    removeFromFavourites: (showId) => {
+      const { showDetails, favourites } = get();
+      
+      // Update the showDetails object
+      const updatedShowDetails = {
+        ...showDetails,
+        isFavourite: false, // Mark the show as not favourited
+      };
+    
+      // Remove the show from favourites
+      const updatedFavourites = favourites.filter(fav => fav.id !== showId);
+      set({ 
+        showDetails: updatedShowDetails, 
+        favourites: updatedFavourites 
+      });
     },
 
     setCurrentAudio: (audioUrl) => {
